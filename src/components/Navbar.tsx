@@ -2,14 +2,15 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const navLinks = [
-  { name: "Home", href: "#home" },
+  { name: "Home", href: "/" },
+  { name: "Workout Plans", href: "/workout-planner" },
+  { name: "Diet Plans", href: "/diet-plan" },
+  { name: "Classes", href: "/classes" },
   { name: "About", href: "#about" },
-  { name: "Services", href: "#services" },
-  { name: "Trainers", href: "#trainers" },
   { name: "Pricing", href: "#pricing" },
-  { name: "Contact", href: "#contact" },
 ];
 
 export const Navbar = () => {
@@ -25,21 +26,31 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <span className="text-3xl font-display tracking-wider text-primary">IRON</span>
             <span className="text-3xl font-display tracking-wider text-foreground">FORGE</span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-muted-foreground hover:text-primary transition-colors duration-300 font-medium text-sm uppercase tracking-wide"
-              >
-                {link.name}
-              </a>
+              link.href.startsWith('#') ? (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="text-muted-foreground hover:text-primary transition-colors duration-300 font-medium text-sm uppercase tracking-wide"
+                >
+                  {link.name}
+                </a>
+              ) : (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className="text-muted-foreground hover:text-primary transition-colors duration-300 font-medium text-sm uppercase tracking-wide"
+                >
+                  {link.name}
+                </Link>
+              )
             ))}
           </div>
 
@@ -71,14 +82,25 @@ export const Navbar = () => {
           >
             <div className="container mx-auto px-4 py-6 flex flex-col gap-4">
               {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="text-foreground hover:text-primary transition-colors duration-300 font-medium text-lg uppercase tracking-wide"
-                >
-                  {link.name}
-                </a>
+                link.href.startsWith('#') ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="text-foreground hover:text-primary transition-colors duration-300 font-medium text-lg uppercase tracking-wide"
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="text-foreground hover:text-primary transition-colors duration-300 font-medium text-lg uppercase tracking-wide"
+                  >
+                    {link.name}
+                  </Link>
+                )
               ))}
               <Button variant="hero" size="lg" className="mt-4">
                 Join Now
